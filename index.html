@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet"> 
+
+	<style type="text/css">
+		body{
+			font-family: 'Noto Serif TC', serif !important;
+		}
+	</style>
+    <title>奇蹟之家疫情期間員工健康管理追蹤-查詢系統</title>
+  </head>
+  <body>
+  	<div class="container">
+	    <h1>奇蹟之家疫情期間員工健康管理追蹤-查詢系統</h1>
+		<form>
+		  <div class="form-row">
+			  <div class="form-group  col-md-6">
+			    <label>職稱/所屬組別</label>
+			    <select id="sections" class="form-control">
+	  				<option value="行政庶務組">行政庶務組</option>
+	  				<option value="日照組">日照組</option>
+	  				<option value="居督及個管員">居督及個管員</option>
+	  				<option value="居服員">居服員</option>
+	  				<option value="社區組及送餐志工">社區組及送餐志工</option>
+				</select>
+			  </div>
+			  <div class="form-group col-md-6">
+			    <label>姓名</label>
+			    <select id="names" class="form-control">
+				</select>
+			  </div>		  	
+		  </div>
+		  <div class="form-row">
+	        <div class="form-group col-md-6">
+	        	<label>日期</label>
+	            <div class='input-group date' id='datetimepicker' onkeydown="event.preventDefault()">
+	               <input type='text' id="datepicker1" class="form-control" />
+	               <span class="input-group-addon">
+	               <span class="glyphicon glyphicon-time"></span>
+	               </span>
+	            </div>
+	         </div>
+	         <div class="form-group col-md-6">
+	         	<label>時段</label>
+	         	<div id="timePeriod" class="btn-group btn-group-justified" role="group" >
+	         	  <div id="am" class="btn-group" role="group">
+	         	  	<button type="button" class="btn btn-default active">上午</button>
+	         	  </div>
+				  <div id="pm" class="btn-group" role="group">
+				  	<button type="button" class="btn btn-default">下午</button>
+				  </div>
+				</div>
+	         </div>
+	      	</div>
+	      	<div class="form-group col-md-12">
+	      		<button id="btnSearch" class="btn btn-primary">查詢</button>
+	      	</div>
+		</form>
+	</div>
+    <script type="text/javascript">
+        $(function () {
+             $('#datetimepicker').datetimepicker({
+                 format: 'YYYY-MM-DD',
+                 defaultDate: moment()
+             });
+             $('#sections').val("行政庶務組");
+             $('#sections').change();
+         });
+    	$('#sections').on('change', function(e){
+    		var names = [];
+    		if(this.value == "日照組"){
+    			names = ["林佑璇","李曉貞","曾嘉琪","林秀玲","黃思嘉","黃星瑜","蔡淑如","蔡素碧","洪秀每","丁宜春","曾盈綺","楊宛瑱","陳素華","王金玲","謝梅萍"];
+    		}else if(this.value == "行政庶務組"){
+    			names = ["蘇玉女","林福來","李宥成","劉竹祐","林筱筑","楊培仁","章長恩","張阿華","宋振發"];
+    		}else if(this.value == "居督及個管員"){
+    			names = ["黃文玲","洪一文","李郁君","王雨涵","郭瑞真"];
+    		}else if(this.value == "居服員"){
+    			names = ["吳貴珍","許琬棉","宋碧玲","陳立群","林靜儀","江志豪","葉綠芳","簡靖妤","洪湘柔","趙素芳","何金滿","黃淑惠","林美惠","陳湘穎","蘇文尉","許淑芬","李文玲","陳杏宜","李壽緣","陳秋鳳","郭照盆","陳春美","賴瑩芬","孫碧卿","侯淑芬","石佩茹","莊韶瑋","包宜蓁","蔡欣宜","吳惠滿"];
+    		}else if(this.value == "社區組及送餐志工"){
+    			names = ["程科諺","黃耀誴","盧佳伶","蔡秀雲","宋博政","翁玉玲"];
+    		}
+
+    		$("#names").find('option').remove().end();
+    		for (var i = 0; i < names.length; i++) {
+    			$("#names").append('<option value="'+ names[i] +'">'+ names[i] +'</option>');
+    		}
+		});
+		$('#am').on('click',function(e){
+			$("#am > .btn-default").addClass('active');
+			$("#pm > .btn-default").removeClass('active');
+		});
+		$('#pm').on('click',function(e){
+			$("#pm > .btn-default").addClass('active');
+			$("#am > .btn-default").removeClass('active');
+		});
+		$( "#btnSearch" ).click(function() {
+			event.preventDefault();
+			var section = $('#sections > option').filter(':selected').val();
+		    var name = $('#names > option').filter(':selected').val();
+		    var date = $('#datepicker1').val();
+		    var timePeriod = $('#timePeriod > .btn-group > .btn-default').filter('.active').text();
+		    var url = 'https://script.google.com/macros/s/AKfycbxp4UdL-AbmSYFUxZq4uRbYXN2tcK_N2ZmTj2OMI8-fHUT9-Nji7Qn872vdBZAoD5sCbw/exec?=';
+			  $.ajax({
+			    url: 'https://script.google.com/macros/s/AKfycbxp4UdL-AbmSYFUxZq4uRbYXN2tcK_N2ZmTj2OMI8-fHUT9-Nji7Qn872vdBZAoD5sCbw/exec',
+			    type: 'GET',
+			    crossDomain: true,
+			    data: {section: section, name: name, date: date, timePeriod: timePeriod},
+			    dataType: "json",
+			  }).done(function(data) {
+			    alert(data);
+			  })
+
+		});
+
+    </script>
+  </body>
+</html>
