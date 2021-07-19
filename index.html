@@ -119,10 +119,12 @@
             e.preventDefault();
             return false;
         });
-        $('#sections').change();
     });
     $('#sections').on('change', function(e) {
+        var section = $('#sections > option').filter(':selected').val();
+        var name = $('#names > option').filter(':selected').val();
         if (this.value != "請選擇") {
+            $("#alertSection").hide();
             var names = [];
             if (this.value == "日照組") {
                 names = ["請選擇", "林佑璇", "李曉貞", "曾嘉琪", "林秀玲", "黃思嘉", "黃星瑜", "蔡淑如", "蔡素碧", "洪秀每", "丁宜春", "曾盈綺", "楊宛瑱", "陳素華", "王金玲", "謝梅萍"];
@@ -136,11 +138,22 @@
                 names = ["請選擇", "程科諺", "黃耀誴", "盧佳伶", "蔡秀雲", "宋博政", "翁玉玲"];
             }
         } else {
+            checkFields(section, name);
             names = ["請選擇"];
         }
         $("#names").find('option').remove().end();
         for (var i = 0; i < names.length; i++) {
             $("#names").append('<option value="' + names[i] + '">' + names[i] + '</option>');
+        }
+        $('#names').change();
+    });
+    $('#names').on('change', function(e) {
+        if (this.value == "請選擇") {
+            var section = $('#sections > option').filter(':selected').val();
+            var name = $('#names > option').filter(':selected').val();
+            checkFields(section, name);
+        } else {
+            $("#alertName").hide();
         }
     });
     $('#am').on('click', function(e) {
@@ -158,24 +171,9 @@
         var date = $('#datepicker1').val();
         var timePeriod = $('#timePeriod > .btn-group > .btn-default').filter('.active').text();
 
-        $("#alertSection").hide();
-        $("#alertName").hide();
         $("#msgResult").empty();
 
-        if (section == "請選擇" && name == "請選擇") {
-            $("#alertSection").show();
-            $("#alertName").show();
-            return;
-        }
-        if (section == "請選擇") {
-            $("#alertSection").show();
-            return;
-        }
-
-        if (name == "請選擇") {
-            $("#alertName").show();
-            return;
-        }
+        checkFields(section, name);
 
         $("#btnSearch").button('loading');
         $("#imgLoading").show();
@@ -208,6 +206,25 @@
             $("#modal").modal('show');
         })
     });
+
+    function checkFields(section, name) {
+        $("#alertSection").hide();
+        $("#alertName").hide();
+        if (section == "請選擇" && name == "請選擇") {
+            $("#alertSection").show();
+            $("#alertName").show();
+            return;
+        }
+        if (section == "請選擇") {
+            $("#alertSection").show();
+            return;
+        }
+
+        if (name == "請選擇") {
+            $("#alertName").show();
+            return;
+        }
+    }
     </script>
 </body>
 
