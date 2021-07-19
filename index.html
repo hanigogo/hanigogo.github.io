@@ -57,7 +57,7 @@
                     <div class='input-group date' id='datetimepicker' onkeydown="event.preventDefault()">
                         <input type='text' id="datepicker1" class="form-control" />
                         <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
+                            <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
             <div class="form-group col-md-12">
                 <div id="alertSection" class="alert alert-danger" role="alert" style="display: none;"><span class="glyphicon glyphicon-exclamation-sign"></span> 請選擇職稱/所屬組別</div>
                 <div id="alertName" class="alert alert-danger" role="alert" style="display: none;"><span class="glyphicon glyphicon-exclamation-sign"></span> 請選擇姓名</div>
-                <button id="btnSearch" class="btn btn-primary" data-loading-text="資料讀取中，請稍後...">查詢</button>
+                <button id="btnSearch" class="btn btn-primary" data-loading-text="資料讀取中，請稍後...">查詢</button> <img id="imgLoading" src="https://i.gifer.com/XVo6.gif" width="20px" style="display:none">
             </div>
         </form>
         <div id="modal" class="modal fade" tabindex="-1" role="dialog">
@@ -89,11 +89,21 @@
                     <div class="modal-body">
                         <h4><span id="isOK" class="label label-success">已填寫</span></h4>
                         <h4><span id="isEmpty" class="label label-danger">未填寫</span></h4>
+                        <br>
                         <div id="msgResult"></div>
                         <div id="msgEmpty">
+                            <p>抱歉，資料庫中找不到資料</p>
+                            <p>請至 <a href="https://forms.gle/9GSGxb2nGgwRApdR7">https://forms.gle/9GSGxb2nGgwRApdR7</a></p>
+                            <p>填寫資料</p>
                             <br>
-                            <p>資料庫中找不到資料</p>
-                            <p>請至 <a href="https://forms.gle/9GSGxb2nGgwRApdR7">https://forms.gle/9GSGxb2nGgwRApdR7</a> 填寫資料</p>
+                            <div class="alert alert-warning" role="alert">
+                                <p><span class="label label-warning"><span class="glyphicon glyphicon-warning-sign"></span> 貼心提醒</span></p>
+                                <br>
+                                <p>機器人判讀時間為</p>
+                                <p>上午時段：AM 07:00 - AM 09:00</p>
+                                <p>下午時段：PM 17:00 - PM 19:00</p>
+                                <p>請於正確時段填寫資料，謝謝</p>
+                            </div>
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
@@ -167,6 +177,7 @@
         }
 
         $("#btnSearch").button('loading');
+        $("#imgLoading").show();
         $.ajax({
             url: 'https://script.google.com/macros/s/AKfycbxp4UdL-AbmSYFUxZq4uRbYXN2tcK_N2ZmTj2OMI8-fHUT9-Nji7Qn872vdBZAoD5sCbw/exec',
             type: 'GET',
@@ -174,7 +185,6 @@
             data: { section: section, name: name, date: date, timePeriod: timePeriod },
             dataType: "json",
         }).done(function(data) {
-            console.log(data);
             if (data.length == 0) {
                 $("#isEmpty").show();
                 $("#isOK").hide();
@@ -194,6 +204,7 @@
             $("#sDate").text(date);
             $("#sTimePeriod").text(timePeriod);
             $("#btnSearch").button('reset');
+            $("#imgLoading").hide();
             $("#modal").modal('show');
         })
     });
