@@ -160,6 +160,7 @@
 
         $("#alertSection").hide();
         $("#alertName").hide();
+        $("#msgResult").empty();
 
         if (section == "請選擇" && name == "請選擇") {
             $("#alertSection").show();
@@ -189,7 +190,6 @@
                 $("#isEmpty").show();
                 $("#isOK").hide();
                 $("#msgEmpty").show();
-                $("#msgResult").empty();
             } else {
                 $("#isEmpty").hide();
                 $("#isOK").show();
