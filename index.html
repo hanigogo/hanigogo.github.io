@@ -173,7 +173,9 @@
 
         $("#msgResult").empty();
 
-        checkFields(section, name);
+        if(checkFields(section, name) == false){
+        	return;
+        }
 
         $("#btnSearch").button('loading');
         $("#imgLoading").show();
@@ -204,7 +206,9 @@
             $("#btnSearch").button('reset');
             $("#imgLoading").hide();
             $("#modal").modal('show');
-        })
+        }).fail(function(xhr, textStatus, errorThrow) {
+        	alert("程式碼異常，請將網頁重新整理後再嘗試，或將問題回報給星瑜。\n錯誤原因：" +xhr.responseText);
+        });
     });
 
     function checkFields(section, name) {
@@ -213,16 +217,16 @@
         if (section == "請選擇" && name == "請選擇") {
             $("#alertSection").show();
             $("#alertName").show();
-            return;
+            return false;
         }
         if (section == "請選擇") {
             $("#alertSection").show();
-            return;
+            return false;
         }
 
         if (name == "請選擇") {
             $("#alertName").show();
-            return;
+            return false;
         }
     }
     </script>
