@@ -37,6 +37,8 @@
                     <label>職稱/所屬組別</label>
                     <select id="sections" class="form-control">
                         <option value="請選擇">請選擇</option>
+                        <option value="主任">主任</option>
+                        <option value="副主任">副主任</option>
                         <option value="行政庶務組">行政庶務組</option>
                         <option value="日照組">日照組</option>
                         <option value="居督及個管員">居督及個管員</option>
@@ -126,7 +128,11 @@
         if (this.value != "請選擇") {
             $("#alertSection").hide();
             var names = [];
-            if (this.value == "日照組") {
+            if (this.value == "主任") {
+                names = ["請選擇", "邱加瑜"];
+            } else if (this.value == "副主任") {
+                names = ["請選擇", "歐陽怡安"];
+            } else if (this.value == "日照組") {
                 names = ["請選擇", "林佑璇", "李曉貞", "曾嘉琪", "林秀玲", "黃思嘉", "黃星瑜", "蔡淑如", "蔡素碧", "洪秀每", "丁宜春", "曾盈綺", "楊宛瑱", "陳素華", "王金玲", "謝梅萍"];
             } else if (this.value == "行政庶務組") {
                 names = ["請選擇", "蘇玉女", "林福來", "李宥成", "劉竹祐", "林筱筑", "楊培仁", "章長恩", "張阿華", "宋振發"];
@@ -173,8 +179,8 @@
 
         $("#msgResult").empty();
 
-        if(checkFields(section, name) == false){
-        	return;
+        if (checkFields(section, name) == false) {
+            return;
         }
 
         $("#btnSearch").button('loading');
@@ -207,7 +213,7 @@
             $("#imgLoading").hide();
             $("#modal").modal('show');
         }).fail(function(xhr, textStatus, errorThrow) {
-        	alert("程式碼異常，請將網頁重新整理後再嘗試，或將問題回報給星瑜。\n錯誤原因：" +xhr.responseText);
+            alert("程式碼異常，請將網頁重新整理後再嘗試，或將問題回報給星瑜。\n錯誤原因：" + xhr.responseText);
         });
     });
 
